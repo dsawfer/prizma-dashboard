@@ -1,3 +1,6 @@
+import { SocketResponse } from '../../types';
+import { eventEmitter, EventType } from '../events';
+
 class Api {
   private socket;
 
@@ -8,7 +11,29 @@ class Api {
       console.log('Вебсокет подключен');
     };
 
-    this.socket.onmessage = () => {};
+    this.socket.onmessage = (event) => {
+      const response: SocketResponse = JSON.parse(event.data);
+
+      switch (response.type) {
+        case 'MESSAGE':
+          console.log('MESSAGE', response.result.message);
+          eventEmitter.emit(EventType.MESSAGE, {
+            message: response.result.message,
+          });
+          break;
+        case 'METRIC':
+          console.log('METRIC:', response.result.name, response.result.value);
+          eventEmitter.emit(EventType.METRIC, {
+            name: response.result.name,
+            value: response.result.value,
+          });
+          break;
+        case 'RESET':
+          console.log('RESET');
+          eventEmitter.emit(EventType.RESET, {});
+          break;
+      }
+    };
 
     this.socket.onclose = (event) => {
       event.wasClean
@@ -19,10 +44,6 @@ class Api {
     this.socket.onerror = (error) => {
       console.warn('Ошибка ' + error);
     };
-  }
-
-  public status() {
-    return this.socket.readyState;
   }
 }
 

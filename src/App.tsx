@@ -1,6 +1,19 @@
-import './App.css';
-import { api } from './services/api/Api';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+import { Page } from './components/Page';
+import { useSocket } from './hooks/useSocket';
+import { useEffect } from 'react';
 
 export function App() {
-  return <>{`Connection: ${api.status()}`}</>;
+  const { createSocketConnection } = useSocket();
+
+  useEffect(() => {
+    createSocketConnection();
+  }, []);
+
+  return (
+    <Provider store={store}>
+      <Page></Page>
+    </Provider>
+  );
 }

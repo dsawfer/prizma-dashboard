@@ -16,9 +16,9 @@
     "ws": "8.17.0"
   },
   "devDependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.18",
+    "@emotion/react": "11.11.4",
+    "@emotion/styled": "11.11.5",
+    "@mui/material": "5.15.18",
     "@preact/preset-vite": "2.8.2",
     "@types/ws": "8.5.10",
     "typescript": "5.4.5",
